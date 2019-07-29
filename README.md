@@ -1,4 +1,4 @@
-# OMP-Ocean-Mixing
+# OMP (Optimum Multiparameter) Ocean Mixing
 Menghitung dan menampilkan percampuran masa air dengan metode omptimum multiparameter analysis. Kode ini merupakan pengayaan dari kode yang sudah ada di situs  https://ocefpaf.github.io/python4oceanographers/blog/2014/03/24/watermass/ 
 
 deskripsi file:
