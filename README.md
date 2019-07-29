@@ -1,5 +1,5 @@
 # OMP-Ocean-Mixing
-Menghitung dan menampilkan percampuran masa air dengan metode omptimum multiparameter analysis. Kode ini merupakan pengayaan dari kode yang sudah ada dari  https://ocefpaf.github.io/python4oceanographers/blog/2014/03/24/watermass/ 
+Menghitung dan menampilkan percampuran masa air dengan metode omptimum multiparameter analysis. Kode ini merupakan pengayaan dari kode yang sudah ada di situs  https://ocefpaf.github.io/python4oceanographers/blog/2014/03/24/watermass/ 
 
 deskripsi file:
 1. maluku.csv : contoh file data yang digunakan
@@ -7,3 +7,6 @@ deskripsi file:
 3. test.py    : contoh penggunaan class yang telah dibuat
 
 ![](https://github.com/iqbalipb/OMP-Ocean-Mixing/blob/master/omp_maluku.png)
+
+# Dependencies modul python yang digunakan yaitu:
+pandas, numpy, matplotlib, gsw, brewer2mpl, mpl_toolkits, scipy
