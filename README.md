@@ -30,7 +30,8 @@ sebelum menggunakan class ini install terlebih dahulu:
      ind : nilai batas masa air
      
    # gambar_utama(self, S, T, depth, latitude, masa_air1, masa_air2, masa_air3)
-   
+     menghasilkan gambar contourf dari masa air
+     
         T : nilai temperature
         S : Nilai salinitas
         depth : data kedalaman
@@ -40,7 +41,8 @@ sebelum menggunakan class ini install terlebih dahulu:
         masa_air3 : nilai masa air ketiga
        
    # gambar_colorbar(fig, letak, label)
-   
+     menghasilkan colorbar dari setiap masa air
+     
         fig : hasil output dari gambar_utama
         letak : 1 -> pojok kiri atas
                 2 -> pojok kiri bawah
