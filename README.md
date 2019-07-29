@@ -8,5 +8,9 @@ deskripsi file:
 
 ![](https://github.com/iqbalipb/OMP-Ocean-Mixing/blob/master/omp_maluku.png)
 
-# Dependencies modul python yang digunakan yaitu:
-pandas, numpy, matplotlib, gsw, brewer2mpl, mpl_toolkits, scipy
+# Installations:
+sebelum menggunakan class ini install terlebih dahulu:
+1. python 3
+2. install anaconda
+3. install beberapa modul berikut: pandas, numpy, matplotlib, gsw, brewer2mpl, mpl_toolkits, scipy
+4. Download repo ini, kemudian jalankan test.py (anda dapat menggunakan spyder)
