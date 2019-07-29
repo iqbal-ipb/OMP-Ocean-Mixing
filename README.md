@@ -29,7 +29,7 @@ sebelum menggunakan class ini install terlebih dahulu:
      S : Nilai salinitas
      ind : nilai batas masa air
      
-   # gambar_utama(self, S, T, depth, latitude, masa_air1, masa_air2, masa_air3)
+   # gambar_utama(S, T, depth, latitude, masa_air1, masa_air2, masa_air3)
      menghasilkan gambar contourf dari masa air
      
         T : nilai temperature
@@ -49,4 +49,16 @@ sebelum menggunakan class ini install terlebih dahulu:
                 3 -> pojok kanan bawah
                 4 -> pojok kanan atas
         label  : nama-nama dari masa air
- 
+        
+   # gambar_TS(ax, S, T, cores, labels, jumlah_garis_TS, posisi_judul)
+     menghasilkan gambar diagram TS dari data yang diolah
+     
+        ax : gambar_utama
+        S : salinitas
+        T : temperature
+        cores : nilai masa air
+        labels : nama masa air
+        jumlah_garis : jumlah garis TS
+        posisi_judul : posisi judul sumbu-y (left atau right)
+    
+    
