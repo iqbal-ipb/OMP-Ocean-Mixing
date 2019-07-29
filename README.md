@@ -14,3 +14,13 @@ sebelum menggunakan class ini install terlebih dahulu:
 2. install anaconda
 3. install beberapa modul berikut: pandas, numpy, matplotlib, gsw, brewer2mpl, mpl_toolkits, scipy
 4. Download repo ini, kemudian jalankan test.py (anda dapat menggunakan spyder)
+
+# fungsi yang ada di class omp_ipb
+ 
+   # buka_csv(filenya, grid_kedalaman, jumlah_stasiun)
+ 
+     filenya: masukan alamat file CSV anda
+     grid_kedalaman : jumlah data dari kedalaman
+     jumlah_stasiun : jumlah longitude (titik CTD)
+ 
+ 
