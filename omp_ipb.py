@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jul 26 07:00:07 2019
-
 @author: Muhammad Iqbal, IPB University
 """
 
