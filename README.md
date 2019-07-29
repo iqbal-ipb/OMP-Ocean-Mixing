@@ -5,3 +5,5 @@ deskripsi file:
 1. maluku.csv : contoh file data yang digunakan
 2. omp_ipb.py : file class untuk perhitungan omp
 3. test.py    : contoh penggunaan class yang telah dibuat
+
+![alt text] (https://github.com/iqbalipb/OMP-Ocean-Mixing/blob/master/omp_maluku.png)
