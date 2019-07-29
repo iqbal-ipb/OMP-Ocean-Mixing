@@ -15,12 +15,31 @@ sebelum menggunakan class ini install terlebih dahulu:
 3. install beberapa modul berikut: pandas, numpy, matplotlib, gsw, brewer2mpl, mpl_toolkits, scipy
 4. Download repo ini, kemudian jalankan test.py (anda dapat menggunakan spyder)
 
-# fungsi yang ada di class omp_ipb
+# fungsi yang ada di Class omp_ipb
  
-   # buka_csv(filenya, grid_kedalaman, jumlah_stasiun)
+    # buka_csv(filenya, grid_kedalaman, jumlah_stasiun)
  
      filenya: masukan alamat file CSV anda
      grid_kedalaman : jumlah data dari kedalaman
      jumlah_stasiun : jumlah longitude (titik CTD)
+     
+     catatan: pastikan jumlah data keseluruhan = grid_kedalaman * jumlah_stasiun
  
+   # mixing(T, S, inds)
+   
+     T : nilai temperature
+     S : Nilai salinitas
+     ind : nilai batas masa air
+     
+   # gambar_utama(self, S, T, depth, latitude, masa_air1, masa_air2, masa_air3)
+   
+        T : nilai temperature
+        S : Nilai salinitas
+        depth : data kedalaman
+        latitude : data latitude
+        masa_air1 : nilai masa air pertama
+        masa_air2 : nilai masa air kedua
+        masa_air3 : nilai masa air ketiga
+       
+   
  
