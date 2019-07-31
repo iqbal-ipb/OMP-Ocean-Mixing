@@ -35,10 +35,9 @@ class omp_ipb:
 
         return self.S, self.T, self.depth, self.latitude, self.longitude
 
-    def buka_csv(self, filenya, grid_kedalaman, jumlah_stasiun):
+    def buka_csv(self, filenya, grid_kedalaman):
         self.filenya = filenya
         self.grid_kedalaman = grid_kedalaman
-        self.jumlah_stasiun = jumlah_stasiun
         data = pd.read_csv(self.filenya, sep=';')
         temperature = data['Temperature']
         salinity = data['Salinity']
@@ -48,6 +47,14 @@ class omp_ipb:
         self.latitude =np.unique(self.latitude)
         self.longitude = data['Longitude']
         self.longitude = np.unique(self.longitude)
+        self.jumlah_stasiun = round(len(temperature)/self.grid_kedalaman)
+        if(self.jumlah_stasiun*self.grid_kedalaman != len(temperature)):
+            import sys
+            print("------------------------------------------------------")            
+            print("-----------ERROR JUMLAH DATASET-----------------------")
+            print("-----------cek jumlah kedalaman dan transek-----------")
+            print("------------------------------------------------------")
+            sys.exit()
         j=0
         k=0
         data_temp=np.zeros((self.grid_kedalaman,self.jumlah_stasiun))
