@@ -34,16 +34,15 @@ sebelum menggunakan class ini install terlebih dahulu:
      S : Nilai salinitas
      ind : nilai batas masa air
      
-   # gambar_utama(S, T, depth, latitude, masa_air1, masa_air2, masa_air3)
+   # gambar_utama(S, T, depth, latitude, masa_air)
      menghasilkan gambar contourf dari masa air
      
         T : nilai temperature
         S : Nilai salinitas
         depth : data kedalaman
         latitude : data latitude
-        masa_air1 : nilai masa air pertama
-        masa_air2 : nilai masa air kedua
-        masa_air3 : nilai masa air ketiga
+        masa_air : nilai masa air (hasil dari fungsi mixing)
+       
        
    # gambar_colorbar(fig, letak, label)
      menghasilkan colorbar dari setiap masa air
