@@ -1,10 +1,12 @@
 # OMP (Optimum Multiparameter) Ocean Mixing
-Menghitung dan menampilkan percampuran masa air dengan metode omptimum multiparameter analysis. Kode ini merupakan pengayaan dari kode yang sudah ada di situs  https://ocefpaf.github.io/python4oceanographers/blog/2014/03/24/watermass/ 
+Menghitung dan menampilkan percampuran masa air dengan metode omptimum multiparameter analysis. Kode ini merupakan pengayaan dari kode yang sudah ada di situs  https://ocefpaf.github.io/python4oceanographers/blog/2014/03/24/watermass/ .
+
+Beberapa tambahan yang dibuat yaitu fleksibilitas jumlah masa air yang dihitung (2 atau 3 masa air), letak colorbar, letak peta insert dan diagram TS. Untuk lebih jelasnya dapat dilihat pada penjelasan difile test.py
 
 deskripsi file:
 1. maluku.csv : contoh file data yang digunakan
 2. omp_ipb.py : file class untuk perhitungan omp
-3. test.py    : contoh penggunaan class yang telah dibuat
+3. test.py    : contoh penggunaan class yang telah dibuat.
 
 ![](https://github.com/iqbalipb/OMP-Ocean-Mixing/blob/master/omp_maluku.png)
 
