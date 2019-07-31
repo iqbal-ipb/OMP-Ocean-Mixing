@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """
+Created on Fri Jul 26 07:00:07 2019
+
 @author: Muhammad Iqbal, IPB University
 """
 
@@ -15,11 +17,24 @@ from mpl_toolkits.basemap import Basemap
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from scipy import interpolate
+from netCDF4 import Dataset
 import warnings
 warnings.filterwarnings('ignore')
 
 
 class omp_ipb:
+    def buka_netcdf(self, file, var_pres, var_temp, var_sal, var_lat, var_lon):
+        self.file = file
+        fh = Dataset(self.file, mode='r')
+
+        self.depth = fh.variables[var_pres][:]  # extract/copy the data
+        self.T = fh.variables[var_temp][:]
+        self.S = fh.variables[var_sal][:]
+        self.latitude = fh.variables[var_lat][:]
+        self.longitude = fh.variables[var_lon][:]
+
+        return self.S, self.T, self.depth, self.latitude, self.longitude
+
     def buka_csv(self, filenya, grid_kedalaman, jumlah_stasiun):
         self.filenya = filenya
         self.grid_kedalaman = grid_kedalaman
@@ -52,27 +67,31 @@ class omp_ipb:
         self.T = T
         self.S = S
         self.inds = inds
-        a = np.r_[self.inds, np.ones((1, 3))]
-        b = np.c_[self.T.ravel(), self.S.ravel(), np.ones(self.T.shape).ravel()].T
+        self.jumlah_masa_air = inds.shape[1]
+        self.l=np.zeros((S.shape[0],S.shape[1],self.jumlah_masa_air))
+        if self.jumlah_masa_air==2:
+            a = np.r_[self.inds]
+            b = np.c_[self.T.ravel(), self.S.ravel()].T
+        elif self.jumlah_masa_air==3:
+            a = np.r_[self.inds, np.ones((1, self.jumlah_masa_air))]
+            b = np.c_[self.T.ravel(), self.S.ravel(), np.ones(self.T.shape).ravel()].T
+        else:
+            print("------------------------------------------------------")            
+            print("-----------ERROR JUMLAH MASA AIR----------------------")
+            print("-----------Mohon Masukan 2 atau 3 masa air------------")
+            print("------------------------------------------------------")
+            import sys
+            sys.exit()
+
         m = np.linalg.solve(a, b)
-        m1 = m[0].reshape(T.shape)
-        m2 = m[1].reshape(T.shape)
-        m3 = m[2].reshape(T.shape)
+        for i in range(self.jumlah_masa_air):
+             self.l[0:,0:,i] = m[i].reshape(T.shape)
+             self.l[0:,0:,i] = ma.masked_outside(ma.masked_invalid(self.l[0:,0:,i]), 0, 1)
+             self.l[0:,0:,i] = 100 * self.l[0:,0:,i]
 
-        # Mask values outside mixing triangle.
-        self.m1 = ma.masked_outside(ma.masked_invalid(m1), 0, 1)
-        self.m2 = ma.masked_outside(ma.masked_invalid(m2), 0, 1)
-        self.m3 = ma.masked_outside(ma.masked_invalid(m3), 0, 1)
+        return self.l
 
-        self.m1 = 100 * m1
-        self.m2 = 100 * m2
-        self.m3 = 100 * m3
-        return self.m1, self.m2, self.m3
-
-    def gambar_utama(self, S, T, depth, latitude, npsw, npiw, spsw):
-        self.npsw=npsw
-        self.npiw=npiw
-        self.spsw=spsw
+    def gambar_utama(self, S, T, depth, latitude, hasil_mixing):
         s = ma.masked_invalid(self.S).mean(axis=1)
         t = ma.masked_invalid(self.T).mean(axis=1)
         Te = np.linspace(t.min(), t.max(), 10)
@@ -86,21 +105,21 @@ class omp_ipb:
         Blues = brewer2mpl.get_map('Blues', 'Sequential', 9).mpl_colormap
         Greens = brewer2mpl.get_map('Greens', 'Sequential', 9).mpl_colormap
 
+        warna=[Reds, Blues, Greens]
+
         # Grid for contouring.
         zg, xg = np.meshgrid(self.depth, self.latitude)
         self.fig, self.ax = plt.subplots(nrows=1, ncols=1, figsize=(14, 6), facecolor='w')
         self.ax.invert_yaxis()
-
+        kl=[]
         percent = [50, 60, 70, 80, 90, 100]
-        self.m1 = self.ax.contourf(xg, zg, self.npsw.transpose(), percent, cmap=Reds, zorder=3)
-        self.m2 = self.ax.contourf(xg, zg, self.npiw.transpose(), percent, cmap=Greens, zorder=2)
-        self.m3 = self.ax.contourf(xg, zg, self.spsw.transpose(), percent, cmap=Blues, zorder=1)
-
-        self.m1.set_clim(percent[0], percent[-1])
-        self.m2.set_clim(percent[0], percent[-1])
-        self.m3.set_clim(percent[0], percent[-1])
-
-        return self.fig, self.m1, self.m2, self.m3, self.ax
+        # m = np.zeros(hasil_mixing.shape)
+        for i in range(hasil_mixing.shape[2]):
+            k = self.ax.contourf(xg, zg, hasil_mixing[0:,0:,i].transpose(), percent, cmap=warna[i], zorder=3)
+            k.set_clim(percent[0], percent[-1])
+            kl.append(k)
+        
+        return self.fig, kl, self.ax
 
     def gambar_colorbar(self, fig, letak, label):
         # Colorbars.
@@ -113,36 +132,21 @@ class omp_ipb:
             left, bottom, height, width = 0.50, 0.26, 0.13, 0.02
         else:
             left, bottom, height, width = 0.50, 0.84, 0.13, 0.02
-
-        rect1 = [left, bottom, height, width]  # Top.
-        rect2 = [left, bottom - dy, height, width]  # Center.
-        rect3 = [left, bottom - 2*dy, height, width]  # Bottom.
-
-        cax1 = plt.axes(rect1, facecolor='#E6E6E6')
-        cax2 = plt.axes(rect2, facecolor='#E6E6E6')
-        cax3 = plt.axes(rect3, facecolor='#E6E6E6')
-
         kw = dict(orientation='horizontal', extend='min')
-        cb1 = fig[0].colorbar(fig[1], cax=cax1, **kw)
-        cb2 = fig[0].colorbar(fig[2], cax=cax2, **kw)
-        cb3 = fig[0].colorbar(fig[3], cax=cax3, **kw)
-
-        cax1.xaxis.set_ticklabels([])
-        cax2.xaxis.set_ticklabels([])
-
-        new_labels = ['%s%%' % l.get_text() for l in cax3.xaxis.get_ticklabels()]
-        cax3.xaxis.set_ticklabels(new_labels)
-        kw = dict(rotation=0, labelpad=20, y=1,
-            verticalalignment='center', horizontalalignment='left')
-        cb1.ax.set_ylabel(label[0], **kw)
-        cb1.ax.yaxis.set_label_position("right")
-
-        cb2.ax.set_ylabel(label[1], **kw)
-        cb2.ax.yaxis.set_label_position("right")
-
-        cb3.ax.set_ylabel(label[2], **kw)
-        cb3.ax.yaxis.set_label_position("right")
-
+        rect=np.zeros((4, len(fig[1])))
+        list_cax=[]
+        list_cb=[]
+        for i in range(len(fig[1])):
+            rect[0:,i] = [left, bottom-dy*i, height, width]  # Top.
+            caxk = plt.axes(rect[0:,i], facecolor='#E6E6E6')
+            list_cax.append(caxk)
+            cb = fig[0].colorbar(fig[1][i], cax=list_cax[i], **kw)
+            list_cb.append(cb)
+            list_cax[i].xaxis.set_ticklabels([])
+            new_labels = ['%s%%' % l.get_text() for l in list_cax[i].xaxis.get_ticklabels()]
+            list_cb[i].ax.set_ylabel(label[i], rotation=0,labelpad=20,y=1,verticalalignment='center', horizontalalignment='left')
+            list_cb[i].ax.yaxis.set_label_position("right")
+        list_cax[len(fig[1])-1].xaxis.set_ticklabels(new_labels)
 
     def gambar_judul(self, ax, depth, latitude, lon):
         self.lon = lon
@@ -182,9 +186,8 @@ class omp_ipb:
         #axTS.set(xlim=(33.2,35), ylim=(6,33))
         cs = axTS.contour(Sg, Tg, sigma_theta, colors='grey', levels=cnt, zorder=1)
         kw = dict(color='r', fontsize=14, fontweight='black')
-        axTS.text(cores[1,0], cores[0,0], labels[0], **kw)
-        axTS.text(cores[1,1], cores[0,1], labels[1], **kw)
-        axTS.text(cores[1,2], cores[0,2], labels[2], **kw)
+        for i in range(cores.shape[1]):
+            axTS.text(cores[1,i], cores[0,i], labels[i], **kw)
 
         axTS.plot(s, t, 'k')
         axTS.yaxis.set_label_position(posisi_judul)
@@ -193,6 +196,7 @@ class omp_ipb:
         axTS.set_ylabel("Temperature [$^\circ$C]", rotation=-90, labelpad=20)
         axTS.set_title("T-S Diagram")
         axTS.xaxis.set_major_locator(MaxNLocator(nbins=4))
+
     def gambar_peta(self, ax, lon, longitude, latitude, mode, lokasi, resolusi):
         #mengatur peta legenda dan lokasi dimana didalam gambar
         axin = inset_axes(ax, width="35%", height="35%", loc=lokasi)
