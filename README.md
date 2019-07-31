@@ -8,6 +8,8 @@ deskripsi file:
 2. omp_ipb.py : file class untuk perhitungan omp
 3. test.py    : contoh penggunaan class yang telah dibuat.
 
+![](https://github.com/iqbal-ipb/OMP-Ocean-Mixing/blob/master/globe_map.png)
+
 ![](https://github.com/iqbalipb/OMP-Ocean-Mixing/blob/master/omp_maluku.png)
 
 ![](https://github.com/iqbal-ipb/OMP-Ocean-Mixing/blob/master/Sulawesi_North.png)
@@ -19,13 +21,12 @@ sebelum menggunakan class ini install terlebih dahulu:
 3. install beberapa modul berikut: pandas, numpy, matplotlib, gsw, brewer2mpl, mpl_toolkits, scipy
 4. Download repo ini, kemudian jalankan test.py (anda dapat menggunakan spyder)
 
-  # buka_csv(filenya, grid_kedalaman, jumlah_stasiun)
+  # buka_csv(filenya, grid_kedalaman)
  
      filenya: masukan alamat file CSV anda
      grid_kedalaman : jumlah data dari kedalaman
-     jumlah_stasiun : jumlah longitude (titik CTD)
      
-     catatan: pastikan jumlah data keseluruhan = grid_kedalaman * jumlah_stasiun
+     catatan: pastikan jumlah data keseluruhan = grid_kedalaman * jumlah_stasiun/transek
  
    # mixing(T, S, inds)
    
