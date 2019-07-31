@@ -10,7 +10,7 @@ from omp_ipb import omp_ipb
 
 omp_ipb=omp_ipb()
 #file bentuk CSV terdiri atas Kedalaman, Temperature, Salnity
-S, T, depth, lat, lon = omp_ipb.buka_csv("maluku.csv", 250, 13)
+S, T, depth, lat, lon = omp_ipb.buka_csv("maluku.csv", 250) #250 adalah jumlah grid kedalaman
 #S, T, depth, lat, lon = omp_ipb.buka_netcdf("data/D6901746_002.nc", 'PRES', 'TEMP', 'PSAL', 'LATITUDE', 'LONGITUDE')
 """
      T : Conservative Temperature
