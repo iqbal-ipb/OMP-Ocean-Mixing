@@ -10,6 +10,8 @@ deskripsi file:
 
 ![](https://github.com/iqbalipb/OMP-Ocean-Mixing/blob/master/omp_maluku.png)
 
+![](https://github.com/iqbal-ipb/OMP-Ocean-Mixing/blob/master/Sulawesi_North.png)
+
 # Installations:
 sebelum menggunakan class ini install terlebih dahulu:
 1. python 3
